@@ -4,13 +4,41 @@
 #include <iostream>
 #include <tinyfsm.hpp>
 
-struct Off; // forward declaration
+//enum for case statement in main
+enum caseStates {
+    caseBoot,
+    caseIdel,
+    caseReady,
+    caseAscent,
+    caseCoast,
+    caseMain_Descent,
+    caseDrouge_Descent,
+    caseLanded
+};
 
+//states
+struct Off; // forward declaration
+struct Other;
+struct Boot;
+struct Idle;
+struct Ready;
+struct Ascent;
+struct Coast;
+struct Main_Descent;
+struct Drogue_Descent;
+struct Landed;
 
 // ----------------------------------------------------------------------------
 // 1. Event Declarations
 //
 struct Toggle : tinyfsm::Event { };
+struct Heartbeat : tinyfsm::Event { };
+struct Signal : tinyfsm::Event { };
+struct Liftoff : tinyfsm::Event { };
+struct Seperation : tinyfsm::Event { };
+struct Apogee : tinyfsm::Event{ };
+struct Altitude : tinyfsm::Event { };
+struct Touchdown : tinyfsm::Event{ };
 
 
 // ----------------------------------------------------------------------------
@@ -18,7 +46,14 @@ struct Toggle : tinyfsm::Event { };
 //
 struct Switch : tinyfsm::Fsm<Switch>
 {
-    virtual void react(Toggle const&) { };
+    virtual void react(Toggle const&) { std::cout << "not implemented for state" << std::endl; };
+    virtual void react(Heartbeat const&) { std::cout << "not implemented for state" << std::endl; } 
+    virtual void react(Signal const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Liftoff const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Seperation const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Apogee const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Altitude const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Touchdown const&) { std::cout << "not implemented for state" << std::endl;  };
 
     // alternative: enforce handling of Toggle in all states (pure virtual)
     //virtual void react(Toggle const &) = 0;
@@ -43,9 +78,54 @@ struct On : Switch
 struct Off : Switch
 {
     void entry() override { std::cout << "* Switch is OFF" << std::endl; };
-    void react(Toggle const&) override { transit<On>(); };
+    void react(Toggle const&) override { transit<Other>(); };
 };
 
+struct Other : Switch
+{
+    void entry() override { std::cout << "We created another state!!!" << std::endl; };
+    void react(Toggle const&) override { transit<On>();}
+};
+
+struct Boot : Switch
+{
+    void entry() override {};
+};
+
+struct Idle : Switch
+{
+
+};
+
+struct Ready : Switch
+{
+
+};
+
+struct Ascent : Switch
+{
+
+};
+
+struct Coast : Switch
+{
+
+};
+
+struct Main_Descent : Switch
+{
+
+};
+
+struct Drogue_Descent : Switch
+{
+
+};
+
+struct Landed : Switch
+{
+
+};
 FSM_INITIAL_STATE(Switch, Off)
 
 
