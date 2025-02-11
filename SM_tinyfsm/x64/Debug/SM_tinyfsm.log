@@ -1,13 +1,13 @@
 ﻿  SM_tinyfsm.cpp
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(39,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(40,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(41,23): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(42,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(357,21): warning C4102: 'caseBoot': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(360,21): warning C4102: 'caseIdle': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(363,22): warning C4102: 'caseReady': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(366,23): warning C4102: 'caseAscent': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(369,22): warning C4102: 'caseCoast': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(372,29): warning C4102: 'caseMain_Descent': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(375,31): warning C4102: 'caseDrouge_Descent': unreferenced label
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(378,23): warning C4102: 'caseLanded': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(44,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(368,21): warning C4102: 'caseBoot': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(372,21): warning C4102: 'caseIdle': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(376,22): warning C4102: 'caseReady': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(380,23): warning C4102: 'caseAscent': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(384,22): warning C4102: 'caseCoast': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(388,29): warning C4102: 'caseMain_Descent': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(392,31): warning C4102: 'caseDrouge_Descent': unreferenced label
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(396,23): warning C4102: 'caseLanded': unreferenced label
   SM_tinyfsm.vcxproj -> C:\Users\emman\source\repos\SM_tinyfsm\x64\Debug\SM_tinyfsm.exe

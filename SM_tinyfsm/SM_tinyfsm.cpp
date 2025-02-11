@@ -1,5 +1,7 @@
 // SM_tinyfsm.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+//using the following library 
+// https://github.com/digint/tinyfsm ;
 
 #include <iostream>
 #include <chrono>
@@ -317,6 +319,8 @@ struct Landed : Switch
     }
 };
 FSM_INITIAL_STATE(Switch, Off)
+//uncomment this and update the above one 
+//FSM_INITIAL_STATE(Switch, Boot)
 
 
 // ----------------------------------------------------------------------------
@@ -334,6 +338,13 @@ int main()
 {
     // instantiate events
     Toggle toggle;
+    Heartbeat heartbeat;
+    Signal_Liftoff signal_liftoff;
+    Liftoff liftoff;
+    Seperation seperation;
+    Apogee apogee;
+    Altitude altitude;
+    Touchdown touchdown;
 
     fsm_handle::start();
 
@@ -355,28 +366,36 @@ int main()
             default:
                 std::cout << "> Invalid input" << std::endl;
             caseBoot:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(heartbeat);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseIdle:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(signal_liftoff);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseReady:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(liftoff);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseAscent:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(seperation);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseCoast:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(apogee);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseMain_Descent:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(altitude);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseDrouge_Descent:
-                std::cout << "not implemented for state" << std::endl;
+                fsm_handle::dispatch(touchdown);
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             caseLanded:
-                std::cout << "not implemented for state" << std::endl;
+                std::cout << "not sure what to do once in the landed state... terminate???" << std::endl;
+                //std::cout << "not implemented for state" << std::endl;
                 break;
             /*default:
                 std::cout << "big time error.... not sure how you got here" << std::endl; */
