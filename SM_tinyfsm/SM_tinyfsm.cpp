@@ -9,7 +9,7 @@
 #include <tinyfsm.hpp>
 
 //enum for case statement in main
-enum caseStates {
+enum class caseStates {
     caseBoot,
     caseIdle,
     caseReady,
@@ -65,14 +65,14 @@ struct Touchdown : tinyfsm::Event{ };
 //
 struct Switch : tinyfsm::Fsm<Switch>
 {
-    virtual void react(Toggle const&) { std::cout << "not implemented for state" << std::endl; };
-    virtual void react(Heartbeat const&) { std::cout << "not implemented for state" << std::endl; } 
-    virtual void react(Signal_Liftoff const&) { std::cout << "not implemented for state" << std::endl;  };
-    virtual void react(Liftoff const&) { std::cout << "not implemented for state" << std::endl;  };
-    virtual void react(Seperation const&) { std::cout << "not implemented for state" << std::endl;  };
-    virtual void react(Apogee const&) { std::cout << "not implemented for state" << std::endl;  };
-    virtual void react(Altitude const&) { std::cout << "not implemented for state" << std::endl;  };
-    virtual void react(Touchdown const&) { std::cout << "not implemented for state" << std::endl;  };
+    virtual void react(Toggle const&) { std::cout << "toggle not implemented for state" << std::endl; };
+    virtual void react(Heartbeat const&) { std::cout << "heartbeat not implemented for state" << std::endl; } 
+    virtual void react(Signal_Liftoff const&) { std::cout << "singal_liftoff not implemented for state" << std::endl;  };
+    virtual void react(Liftoff const&) { std::cout << "liftoff not implemented for state" << std::endl;  };
+    virtual void react(Seperation const&) { std::cout << "seperation not implemented for state" << std::endl;  };
+    virtual void react(Apogee const&) { std::cout << "apogee not implemented for state" << std::endl;  };
+    virtual void react(Altitude const&) { std::cout << "altitude not implemented for state" << std::endl;  };
+    virtual void react(Touchdown const&) { std::cout << "touchdown not implemented for state" << std::endl;  };
 
     // alternative: enforce handling of Toggle in all states (pure virtual)
     //virtual void react(Toggle const &) = 0;
@@ -113,6 +113,7 @@ struct Boot : Switch
 {
     int counter = 0;
     void entry() override {
+        std::cout << "entering the boot state" << std::endl;
         /*start ros node or whatever to detect
         heartbeets*/ 
         //set altitude here?? static altitude variable in parent class
@@ -121,23 +122,29 @@ struct Boot : Switch
     void react(Heartbeat const&) {
         /*look at heart beat and after some condition
         transition to next state*/
-        if (counter > 2) {
-            case_state = caseIdle;
+        std::cout << "sleeping" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "waking up" << std::endl;
+        case_state = caseStates::caseIdle;
+        transit<Idle>();
+        /*if (counter > 2) {
+            case_state = caseStates::caseIdle;
             transit<Idle>();
             
         }
-        counter++;
+        counter++;*/
     }
 
     void exit() override {
         /*unsubscribe to ros node ??*/
-        //case_state = caseIdle;
+        //case_state = caseStates::caseIdle;
+        std::cout << "exiting the boot state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
 struct Idle : Switch
 {
-    int counter = 0;
     void entry() override {
         /*set up web socket or whatever to detect signal*/
         /*listen to something for acceleration.. we using ROS
@@ -152,24 +159,27 @@ struct Idle : Switch
         * //if either happen do we log here or do it in exit or
         * //start the logging in the next state
         if (signal){
-            case_state = caseReady;
+            case_state = caseStates::caseReady;
             transit<Ready>();
         }
         if (acceleration > A || altitude_gain > (D - C + 1){
-            case_state = caseAscent;
+            case_state = caseStates::caseAscent;
             transit<Ascent>();
 
         }*/
-        if (counter > 2) {
-            case_state = caseAscent;
-            transit<Idle>();
-        }
-        counter++;
+
+        std::cout << "sleeping" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "waking up" << std::endl;
+        case_state = caseStates::caseAscent;
+        transit<Ascent>();
+        
     }
 
     void exit() override {
         /*clean anything up as we exit the state*/
         std::cout << "leaving Idle state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -185,19 +195,20 @@ struct Ready : Switch
     void react(Liftoff const&) {
         //do we log off as we transition??
         /*if (acceleration > A || altitude_gain > (D - C + 1){
-            case_state = caseAscent;
+            case_state = caseStates::caseAscent;
             transit<Ascent>();
         }*/
         std::cout << "sleeping" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << "waking up" << std::endl;
 
-        case_state = caseAscent;
+        case_state = caseStates::caseAscent;
         transit<Ascent>();
     }
 
     void exit() override {
         std::cout << "Leaving Ready state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -212,11 +223,13 @@ struct Ascent : Switch
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << "waking up" << std::endl;
 
-        case_state = caseCoast;
+        case_state = caseStates::caseCoast;
         transit<Coast>();
     }
 
     void exit() override {
+        std::cout << "exiting the Ascent state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -233,13 +246,14 @@ struct Coast : Switch
         std::chrono::duration<float> elapsed_seconds = current_time - start_time;
         if (elapsed_seconds.count() > E) {
             std::cout << "apogee found" << std::endl;
-            case_state = caseMain_Descent;
+            case_state = caseStates::caseMain_Descent;
             transit<Main_Descent>();
         }
     }
 
     void exit() override {
         std::cout << "exiting coast state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -252,7 +266,7 @@ struct Main_Descent : Switch
     void react(Altitude const&) override{
         /*
         if(altitude < F){
-            case_state = caseDrogue_Descent;
+            case_state = caseStates::caseDrogue_Descent;
             trainsit<Drogue_Descent>;
         }
         */
@@ -260,12 +274,13 @@ struct Main_Descent : Switch
         std::cout << "sleeping" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << "waking up" << std::endl;
-        case_state = caseDrouge_Descent;
+        case_state = caseStates::caseDrouge_Descent;
         transit<Drogue_Descent>();
     }
 
     void exit() override {
         std::cout << "exiting main_descent state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -289,20 +304,21 @@ struct Drogue_Descent : Switch
         std::chrono::steady_clock::time_point current_time = std::chrono::steady_clock::now();
         std::chrono::duration<float> elapsed_seconds = current_time - start_time;
         if (elapsed_seconds.count() > G) {
-            case_state = caseLanded;
+            case_state = caseStates::caseLanded;
             transit<Touchdown>();
         }*/
 
         std::cout << "sleeping" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         std::cout << "waking up" << std::endl;
-        case_state = caseLanded;
+        case_state = caseStates::caseLanded;
         transit<Landed>();
 
     }
 
     void exit() override {
         std::cout << "exiting drogue_descent state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
 
@@ -316,11 +332,12 @@ struct Landed : Switch
 
     void exit() override {
         std::cout << "exiting landed state" << std::endl;
+        std::cout << "----------------------------" << std::endl;
     }
 };
-FSM_INITIAL_STATE(Switch, Off)
+//FSM_INITIAL_STATE(Switch, Off)
 //uncomment this and update the above one 
-//FSM_INITIAL_STATE(Switch, Boot)
+FSM_INITIAL_STATE(Switch, Boot)
 
 
 // ----------------------------------------------------------------------------
@@ -347,58 +364,62 @@ int main()
     Touchdown touchdown;
 
     fsm_handle::start();
+    //start case
+    case_state = caseStates::caseBoot;
 
     while (1)
     {
-        case_state = caseBoot;
-        char c;
+        /*char c;
         std::cout << std::endl << "t=Toggle, q=Quit ? ";
-        std::cin >> c;
-        switch (c) {
-            case 't':
-                std::cout << "> Toggling switch..." << std::endl;
-                fsm_handle::dispatch(toggle);
-                // alternative: instantiating causes no overhead (empty declaration)
-                //fsm_handle::dispatch(Toggle());
-                break;
-            case 'q':
-                return 0;
-            default:
-                std::cout << "> Invalid input" << std::endl;
-            caseBoot:
+        std::cin >> c;*/
+        switch (case_state) {
+            //case 't':
+            //    std::cout << "> Toggling switch..." << std::endl;
+            //    fsm_handle::dispatch(toggle);
+            //    // alternative: instantiating causes no overhead (empty declaration)
+            //    //fsm_handle::dispatch(Toggle());
+            //    break;
+            //case 'q':
+            //    return 0;
+            case caseStates::caseBoot:
+                std::cout << "boot case" << std::endl;
                 fsm_handle::dispatch(heartbeat);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseIdle:
+            case caseStates::caseIdle:
                 fsm_handle::dispatch(signal_liftoff);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseReady:
+            case caseStates::caseReady:
                 fsm_handle::dispatch(liftoff);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseAscent:
+            case caseStates::caseAscent:
                 fsm_handle::dispatch(seperation);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseCoast:
+            case caseStates::caseCoast:
                 fsm_handle::dispatch(apogee);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseMain_Descent:
+            case caseStates::caseMain_Descent:
                 fsm_handle::dispatch(altitude);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseDrouge_Descent:
+            case caseStates::caseDrouge_Descent:
                 fsm_handle::dispatch(touchdown);
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            caseLanded:
+            case caseStates::caseLanded:
+                std::cout << "sleeping" << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+                std::cout << "waking up" << std::endl;
                 std::cout << "not sure what to do once in the landed state... terminate???" << std::endl;
                 //std::cout << "not implemented for state" << std::endl;
                 break;
-            /*default:
-                std::cout << "big time error.... not sure how you got here" << std::endl; */
+            default:
+                std::cout << "big time error.... not sure how you got here" << std::endl; 
+                break;
         };
     }
 }
