@@ -2,5 +2,5 @@
 C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(41,23): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(42,21): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(44,21): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(357,12): warning C4101: 'toggle': unreferenced local variable
+C:\Users\emman\source\repos\SM_tinyfsm\SM_tinyfsm\SM_tinyfsm.cpp(358,12): warning C4101: 'toggle': unreferenced local variable
   SM_tinyfsm.vcxproj -> C:\Users\emman\source\repos\SM_tinyfsm\x64\Debug\SM_tinyfsm.exe

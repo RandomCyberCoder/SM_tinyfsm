@@ -235,10 +235,11 @@ struct Ascent : Switch
 
 struct Coast : Switch
 {
-    std::chrono::steady_clock::time_point start_time = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point start_time;
 
     void entry() override {
         std::cout << "entering coast state" << std::endl;
+        start_time = std::chrono::steady_clock::now();
     }
 
     void react(Apogee const&) override {
@@ -399,8 +400,8 @@ int main()
                 //std::cout << "not implemented for state" << std::endl;
                 break;
             case caseStates::caseCoast:
+                std::cout << "in coast case" << std::endl;
                 fsm_handle::dispatch(apogee);
-                //std::cout << "not implemented for state" << std::endl;
                 break;
             case caseStates::caseMain_Descent:
                 fsm_handle::dispatch(altitude);
